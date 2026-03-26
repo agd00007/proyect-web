@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import ProducstList from "./ProductsList";
+import ProducstList from "../ProductsList/ProductsList";
 
 function ProductsListPage(){
 

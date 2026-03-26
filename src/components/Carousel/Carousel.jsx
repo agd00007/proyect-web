@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-import { banners } from "../moocks/carousel";
+import { banners } from "../../moocks/carousel";
 
 function Carousel() {
   return (

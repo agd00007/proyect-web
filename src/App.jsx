@@ -1,42 +1,39 @@
-
-import Catalog from './components/Catalog';
-import './index.css'; 
-import head from "./assets/head.jpg";
-import ProductsList from "./components/ProductsList"
+import Catalog from "./components/Catalog/Catalog";
+import "./index.css";
+import ProductsListPage from "./components/ProductsListPage/ProductsListPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Carousel from './components/Carousel';
-import ProductsListPage from './components/ProductsListPage';
+import Carousel from "./components/Carousel/Carousel";
 
-
+import { CartProvider } from "./components/context/CartContext";
+import Cart from "./components/Cart/Cart";
+import Register from "./components/Register/Register";
+import Header from "./components/Header/Header"; 
 
 function App() {
-  
-
   return (
-     <div >
-      <div className='bg-amber-100 w-full'>
-      <img src={head} className=" h-30 w-80 object-cover rounded-lg p-2 " />
-      </div>
-
+    <CartProvider>
       <Router>
+       
+        <Header />
+
+       
         <Routes>
-           <Route path="/"
+          <Route
+            path="/"
             element={
               <>
-              <Catalog /> <Carousel/>
+                <Catalog />
+                <Carousel />
               </>
-            
-          } >
-
-          </Route>
-          
-            <Route path="/products/:type" element={<ProductsListPage />} />
+            }
+          />
+          <Route path="/products/:type" element={<ProductsListPage />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </Router>
-     
-    </div>
-   
-  )
+    </CartProvider>
+  );
 }
 
-export default App
+export default App;
