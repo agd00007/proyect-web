@@ -8,6 +8,7 @@ import { CartProvider } from "./components/context/CartContext";
 import Cart from "./components/Cart/Cart";
 import Register from "./components/Register/Register";
 import Header from "./components/Header/Header"; 
+import ProductsList from "./components/ProductsList/ProductsList";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
 
        
         <Routes>
+         
           <Route
             path="/"
             element={

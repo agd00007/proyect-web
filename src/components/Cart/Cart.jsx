@@ -17,7 +17,7 @@ function Cart() {
           className="flex flex-wrap border-b border-gray-300 p-4 gap-4 justify-center items-center"
         >
           <img
-            src={item.image_link} // asegúrate de que aquí uses image_link de tu API
+            src={item.image_link} 
             alt={item.name}
             className="w-40 h-40 object-cover rounded"
           />

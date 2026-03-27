@@ -7,19 +7,17 @@ export default function Header() {
   return (
     <header className="p-4">
       <div className="flex items-center ">
-        
         <Link to="/" className="">
-          <img
-            src={head}
-            alt="Logo"
-            className="h-20 w-80 object-cover "
-          />
+          <img src={head} alt="Logo" className="h-20 w-80 object-cover " />
         </Link>
 
-        
         <div className="flex items-center gap-3 ml-auto p-4 ">
-          <UserIcon  />
-          <CartIcon />
+          <div onClick={() => (window.location.href = "/register")}>
+            <UserIcon />
+          </div>
+          <Link to="/cart">
+            <CartIcon />
+          </Link>
         </div>
       </div>
     </header>
