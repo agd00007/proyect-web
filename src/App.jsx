@@ -1,25 +1,21 @@
-import Catalog from "./components/Catalog/Catalog";
-import "./index.css";
-import ProductsListPage from "./components/ProductsListPage/ProductsListPage";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Catalog from "./components/Catalog/Catalog";
 import Carousel from "./components/Carousel/Carousel";
+import ProductsListPage from "./components/ProductsListPage/ProductsListPage";
+import Cart from "./components/Cart/Cart";
+import Header from "./components/Header/Header";
+import Register from "./components/Register/Register";        // Login + botón registro
+import RegisterPage from "./components/RegisterPage/RegisterPage"; // Formulario registro completo
 
 import { CartProvider } from "./components/context/CartContext";
-import Cart from "./components/Cart/Cart";
-import Register from "./components/Register/Register";
-import Header from "./components/Header/Header"; 
-import ProductsList from "./components/ProductsList/ProductsList";
 
 function App() {
   return (
     <CartProvider>
       <Router>
-       
         <Header />
 
-       
         <Routes>
-         
           <Route
             path="/"
             element={
@@ -31,7 +27,8 @@ function App() {
           />
           <Route path="/products/:type" element={<ProductsListPage />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Register />} /> 
+          <Route path="/registerPage" element={<RegisterPage />} /> 
         </Routes>
       </Router>
     </CartProvider>

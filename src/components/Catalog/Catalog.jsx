@@ -13,7 +13,7 @@ function Catalog() {
   ];
 
   const pushClick = (type) => {
-    console.log("👉 NAVEGANDO A:", type);
+    
     navigate(`/products/${type}`);
   };
 
