@@ -9,8 +9,8 @@ function ProductsList({ type }) {
   const [filters, setFilters] = useState({ brand: "", maxPrice: "" });
   const [loading, setLoading] = useState(true);
 
-  
-  const validateImage = (url) =>
+  // 🔥 comprobar imagen sin bloquear UI
+  const checkImage = (url) =>
     new Promise((resolve) => {
       const img = new Image();
       img.src = url;
@@ -23,46 +23,43 @@ function ProductsList({ type }) {
       setLoading(true);
 
       try {
-        const response = await fetch(
-          `http://makeup-api.herokuapp.com/api/v1/products.json?product_type=${type}`
+        const res = await fetch(
+          `https://makeup-api.herokuapp.com/api/v1/products.json?product_type=${type}`
         );
-        const data = await response.json();
+        const data = await res.json();
 
         if (!Array.isArray(data)) {
-          setProducts([]);
-          setFilteredProducts([]);
           setLoading(false);
           return;
         }
 
-        
-        const basicFiltered = data
+        // ⚡ filtro rápido inicial
+        const basic = data
           .filter(
-            (product) =>
-              product.product_type &&
-              product.product_type.toLowerCase().includes(type.toLowerCase()) &&
-              product.image_link &&
-              (product.image_link.startsWith("http://") ||
-                product.image_link.startsWith("https://"))
+            (p) =>
+              p.product_type &&
+              p.product_type.toLowerCase().includes(type.toLowerCase()) &&
+              p.image_link &&
+              p.image_link.startsWith("http")
           )
-          .slice(0, 30); 
+          .slice(0, 30); // equilibrio velocidad/calidad
 
- 
-        const validProducts = [];
-
-        await Promise.all(
-          basicFiltered.map(async (p) => {
-            const isValid = await validateImage(p.image_link);
-            if (isValid) validProducts.push(p);
-          })
+        // 🔥 validación en paralelo (rápida)
+        const checks = await Promise.all(
+          basic.map(async (p) => ({
+            product: p,
+            valid: await checkImage(p.image_link),
+          }))
         );
+
+        const validProducts = checks
+          .filter((item) => item.valid)
+          .map((item) => item.product);
 
         setProducts(validProducts);
         setFilteredProducts(validProducts);
-      } catch (error) {
-        console.error("Error al cargar productos:", error);
-        setProducts([]);
-        setFilteredProducts([]);
+      } catch (err) {
+        console.error(err);
       }
 
       setLoading(false);
@@ -90,7 +87,12 @@ function ProductsList({ type }) {
   const handleFilterChange = (newFilters) => setFilters(newFilters);
   const brands = [...new Set(products.map((p) => p.brand))];
 
-  if (loading) return <p className="p-6 text-center">Cargando productos...</p>;
+  if (loading)
+    return (
+      <p className="p-6 text-center text-lg animate-pulse">
+        Cargando productos...
+      </p>
+    );
 
   return (
     <div className="flex">
@@ -105,12 +107,16 @@ function ProductsList({ type }) {
             <img
               src={product.image_link}
               alt={product.name}
-              className="w-full h-60 object-cover rounded-lg mb-4"
+              className="w-full h-60 object-cover rounded-lg mb-4 bg-gray-100"
               loading="lazy"
             />
 
-            <h3 className="font-bold text-lg">{product.name}</h3>
-            <p className="text-gray-600">{product.brand}</p>
+            <h3 className="font-bold text-lg line-clamp-2">
+              {product.name}
+            </h3>
+
+            <p className="text-gray-600">{product.brand || "Sin marca"}</p>
+
             <p className="font-semibold mt-2">
               {parseFloat(product.price) || 0} €
             </p>
