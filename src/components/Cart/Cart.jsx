@@ -13,11 +13,11 @@ function Cart() {
 
       {cartItems.map((item) => (
         <div
-          key={item._id}
+          key={item.id}
           className="flex flex-wrap border-b border-gray-300 p-4 gap-4 justify-center items-center"
         >
           <img
-            src={item.image_link} 
+            src={item.image_link}
             alt={item.name}
             className="w-40 h-40 object-cover rounded"
           />
@@ -32,14 +32,14 @@ function Cart() {
           <div className="flex flex-col items-center justify-center gap-2 ml-auto">
             <div className="border h-11 px-3 flex items-center gap-3 rounded-xl">
               <button
-                onClick={() => restProduct(item._id)}
+                onClick={() => restProduct(item.id)}
                 className="text-xl font-bold px-2"
               >
                 -
               </button>
               <span className="text-base font-medium">{item.quantity}</span>
               <button
-                onClick={() => sumProduct(item._id)}
+                onClick={() => sumProduct(item.id)}
                 className="text-xl font-bold px-2"
               >
                 +
@@ -47,7 +47,7 @@ function Cart() {
             </div>
 
             <button
-              onClick={() => removeProductCart(item._id)}
+              onClick={() => removeProductCart(item.id)}
               className="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
             >
               Eliminar
