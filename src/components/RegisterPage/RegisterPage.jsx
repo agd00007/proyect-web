@@ -6,26 +6,33 @@ export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !confirmPassword) {
       alert("Completa todos los campos");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      alert("Las contraseñas no coinciden");
       return;
     }
 
     setLoading(true);
     try {
-      await registerUser(name, email, password);
+      await registerUser(name, email, password, confirmPassword);
       alert("Usuario guardado correctamente");
+
       setName("");
       setEmail("");
       setPassword("");
+      setConfirmPassword("");
 
-      
-      navigate("/"); 
+      navigate("/");
     } catch (error) {
       alert(error.message);
     } finally {
@@ -45,6 +52,7 @@ export default function RegisterPage() {
           onChange={(e) => setName(e.target.value)}
           className="w-full border h-10 rounded px-2 mb-3"
         />
+
         <input
           type="email"
           placeholder="Email"
@@ -52,11 +60,20 @@ export default function RegisterPage() {
           onChange={(e) => setEmail(e.target.value)}
           className="w-full border h-10 rounded px-2 mb-3"
         />
+
         <input
           type="password"
           placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="w-full border h-10 rounded px-2 mb-3"
+        />
+
+        <input
+          type="password"
+          placeholder="Confirmar contraseña"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
           className="w-full border h-10 rounded px-2 mb-4"
         />
 

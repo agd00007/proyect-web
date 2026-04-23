@@ -1,9 +1,8 @@
 const mongoose = require('mongoose')
 
-// Conexión a MongoDB
+
 mongoose.connect('mongodb://127.0.0.1:27017/makeupDB', {
-  // Opciones actuales de Mongoose 9+
-  // no se necesitan useNewUrlParser ni useUnifiedTopology
+  
 })
 const db = mongoose.connection
 

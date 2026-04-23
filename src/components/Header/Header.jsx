@@ -17,28 +17,35 @@ export default function Header() {
   return (
     <header className="p-4">
       <div className="flex items-center">
-        
         <Link to="/">
           <img src={head} alt="Logo" className="h-20 w-80 object-cover" />
         </Link>
 
         <div className="flex items-center gap-4 ml-auto p-4">
-
-          
           {user ? (
-            <span className="text-lg font-semibold">
-              Hola, {user.name}
-            </span>
-          ) : (
-            <Link to="/login">
-              <UserIcon />
-            </Link>
-          )}
+  <>
+    <span className="text-lg font-semibold">
+      Hola, {user.name}
+    </span>
 
-          <Link to="/cart">
-            <CartIcon />
-          </Link>
+    {user.role === "admin" && (
+      <Link
+        to="/admin"
+        className="text-sm font-bold text-black hover:underline"
+      >
+        Panel Admin
+      </Link>
+    )}
+  </>
+) : (
+  <Link to="/login">
+    <UserIcon />
+  </Link>
+)}
+          
+        
 
+          <CartIcon />
         </div>
       </div>
     </header>
